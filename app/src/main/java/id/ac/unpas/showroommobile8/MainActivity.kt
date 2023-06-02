@@ -6,10 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import id.ac.unpas.showroommobile8.screens.PengelolaanDataMobil
 import id.ac.unpas.showroommobile8.ui.theme.ShowroomMobile8Theme
 
 class MainActivity : ComponentActivity() {
@@ -22,22 +22,17 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    PengelolaanDataMobil()
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     ShowroomMobile8Theme {
-        Greeting("Android")
+        PengelolaanDataMobil()
     }
 }
