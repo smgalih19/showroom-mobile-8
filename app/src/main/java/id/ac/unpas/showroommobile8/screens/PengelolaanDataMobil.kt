@@ -11,28 +11,39 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.LiveData
+import androidx.room.Room
 import kotlinx.coroutines.flow.MutableStateFlow
 import id.ac.unpas.showroommobile8.model.DataMobil
+import id.ac.unpas.showroommobile8.persistences.AppDatabase
 
 @Composable
 fun PengelolaanDataMobil(){
-    val _list = remember { MutableStateFlow(listOf<DataMobil>()) }
-    val list by remember { _list }.collectAsState()
+//    Inisiasi kelas db
+    val context = LocalContext.current
+
+    val db = Room.databaseBuilder(
+        context,
+        AppDatabase::class.java, "pengelolaan-datamobil"
+    ).build()
+
+    val dataMobilDao = db.dataMobilDao()
+
+    val list : LiveData<List<DataMobil>> = dataMobilDao.loadAll()
+    val items: List<DataMobil> by list.observeAsState(initial = listOf())
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        FormPencatatanDataMobil { item ->
-            val newList = java.util.ArrayList(list)
-            newList.add(item)
-            _list.value = newList
-        }
+        FormPencatatanDataMobil(dataMobilDao)
 
         LazyColumn(modifier = Modifier.fillMaxWidth() ) {
-            items(items = list, itemContent = { item ->
+            items(items = items, itemContent = { item ->
 
                 Row(modifier = Modifier
                     .padding(15.dp)
