@@ -12,6 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -20,17 +21,22 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.benasher44.uuid.uuid4
 import id.ac.unpas.showroommobile8.model.DataMobil
+import id.ac.unpas.showroommobile8.persistences.DataMobilDao
 import id.ac.unpas.showroommobile8.ui.theme.Purple700
 import id.ac.unpas.showroommobile8.ui.theme.Teal200
+import kotlinx.coroutines.launch
 
 @Composable
-fun FormPencatatanDataMobil(onSimpan: (DataMobil) -> Unit){
+fun FormPencatatanDataMobil(dataMobilDao: DataMobilDao){
     val merk = remember { mutableStateOf(TextFieldValue("")) }
     val model = remember { mutableStateOf(TextFieldValue("")) }
     val bahanBakar = remember { mutableStateOf(TextFieldValue("")) }
     val dijual = remember { mutableStateOf(TextFieldValue("")) }
     val deskripsi = remember { mutableStateOf(TextFieldValue("")) }
+
+    val scope = rememberCoroutineScope()
 
     Column(modifier = Modifier
         .padding(10.dp)
@@ -114,9 +120,12 @@ KeyboardType.Decimal),
             .padding(4.dp)
             .fillMaxWidth()) {
             Button(modifier = Modifier.weight(5f), onClick = {
+                val id = uuid4().toString()
                 val item = DataMobil(merk.value.text, model.value.text, bahanBakar.value.text,
                     dijual.value.text, deskripsi.value.text)
-                onSimpan(item)
+                scope.launch {
+                    dataMobilDao.insertAll(item)
+                }
                 merk.value = TextFieldValue("")
                 model.value = TextFieldValue("")
                 bahanBakar.value = TextFieldValue("")
