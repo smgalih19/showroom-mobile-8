@@ -9,38 +9,25 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.LiveData
-import androidx.room.Room
-import kotlinx.coroutines.flow.MutableStateFlow
+import androidx.hilt.navigation.compose.hiltViewModel
 import id.ac.unpas.showroommobile8.model.DataMobil
-import id.ac.unpas.showroommobile8.persistences.AppDatabase
+
 
 @Composable
 fun PengelolaanDataMobil(){
-//    Inisiasi kelas db
-    val context = LocalContext.current
 
-    val db = Room.databaseBuilder(
-        context,
-        AppDatabase::class.java, "pengelolaan-datamobil"
-    ).build()
+    val viewModel = hiltViewModel<PengelolaanDataMobilViewModel>()
 
-    val dataMobilDao = db.dataMobilDao()
-
-    val list : LiveData<List<DataMobil>> = dataMobilDao.loadAll()
-    val items: List<DataMobil> by list.observeAsState(initial = listOf())
+    val items: List<DataMobil> by viewModel.list.observeAsState(initial = listOf())
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        FormPencatatanDataMobil(dataMobilDao)
+        FormPencatatanDataMobil()
 
         LazyColumn(modifier = Modifier.fillMaxWidth() ) {
             items(items = items, itemContent = { item ->
