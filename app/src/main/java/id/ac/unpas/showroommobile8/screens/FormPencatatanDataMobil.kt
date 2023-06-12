@@ -21,15 +21,16 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.benasher44.uuid.uuid4
-import id.ac.unpas.showroommobile8.model.DataMobil
-import id.ac.unpas.showroommobile8.persistences.DataMobilDao
 import id.ac.unpas.showroommobile8.ui.theme.Purple700
 import id.ac.unpas.showroommobile8.ui.theme.Teal200
 import kotlinx.coroutines.launch
 
 @Composable
-fun FormPencatatanDataMobil(dataMobilDao: DataMobilDao){
+fun FormPencatatanDataMobil(){
+    val viewModel = hiltViewModel<PengelolaanDataMobilViewModel>()
+
     val merk = remember { mutableStateOf(TextFieldValue("")) }
     val model = remember { mutableStateOf(TextFieldValue("")) }
     val bahanBakar = remember { mutableStateOf(TextFieldValue("")) }
@@ -121,16 +122,16 @@ KeyboardType.Decimal),
             .fillMaxWidth()) {
             Button(modifier = Modifier.weight(5f), onClick = {
                 val id = uuid4().toString()
-                val item = DataMobil(merk.value.text, model.value.text, bahanBakar.value.text,
-                    dijual.value.text, deskripsi.value.text)
                 scope.launch {
-                    dataMobilDao.insertAll(item)
+                    viewModel.insert(id, merk.value.text, model.value.text, bahanBakar.value.text,
+                        dijual.value.text, deskripsi.value.text)
+                    merk.value = TextFieldValue("")
+                    model.value = TextFieldValue("")
+                    bahanBakar.value = TextFieldValue("")
+                    dijual.value = TextFieldValue("")
+                    deskripsi.value = TextFieldValue("")
                 }
-                merk.value = TextFieldValue("")
-                model.value = TextFieldValue("")
-                bahanBakar.value = TextFieldValue("")
-                dijual.value = TextFieldValue("")
-                deskripsi.value = TextFieldValue("")
+
             }, colors = loginButtonColors) {
                 Text(
                     text = "Simpan",

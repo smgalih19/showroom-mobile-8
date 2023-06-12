@@ -1,12 +1,10 @@
 package id.ac.unpas.showroommobile8.persistences
 
 import androidx.lifecycle.LiveData
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import id.ac.unpas.showroommobile8.model.DataMobil
 
+@Dao
 interface DataMobilDao {
     @Query("SELECT * FROM DataMobil")
     fun loadAll(): LiveData<List<DataMobil>>
