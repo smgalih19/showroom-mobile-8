@@ -153,21 +153,34 @@ fun MainScreen() {
 startDestination = "home"
             ) {
                 composable("home"){
+                    title.value = "~ShowRoom~"
                     HomeScreen()
                 }
                 composable("setting"){
+                    title.value = "Setting"
                     SettingScreen()
                 }
 
                 composable("pengelolaan-mobil") {
-                    title.value = "~ShowRoom~"
+                    title.value = "Pengelolaan Data Mobil"
                     PengelolaanDataMobil(navController =
+navController, snackbarHostState = scaffoldState.snackbarHostState, modifier = Modifier.padding(innerPadding))
+                }
+
+                composable("pengelolaan-promo") {
+                    title.value = "Pengelolaan Promo"
+                    PengelolaanPromo(navController =
 navController, snackbarHostState = scaffoldState.snackbarHostState, modifier = Modifier.padding(innerPadding))
                 }
 
                 composable("tambah-pengelolaan-mobil") {
                     title.value = "Tambah Data Mobil"
                     FormPencatatanDataMobil(navController =
+navController, modifier = Modifier.padding(innerPadding))
+                }
+                composable("tambah-pengelolaan-promo") {
+                    title.value = "Tambah Data Promo"
+                    FormPencatatanPromo(navController =
 navController, modifier = Modifier.padding(innerPadding))
                 }
 
@@ -185,6 +198,20 @@ backStackEntry.arguments?.getString("id")
 navController, id = id, modifier =
 Modifier.padding(innerPadding)
                     )
+                }
+                composable("edit-pengelolaan-promo/{id}",
+                    listOf(
+                        navArgument("id") {
+                            type = NavType.StringType
+                        }
+                    )) { backStackEntry ->
+                    title.value = "Edit Pengelolaan Promo"
+                    val id =
+backStackEntry.arguments?.getString("id")
+                            ?: return@composable
+                    FormPencatatanPromo(navController =
+ navController, id = id, modifier =
+Modifier.padding(innerPadding))
                 }
             }
         }

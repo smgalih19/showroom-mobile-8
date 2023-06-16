@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import id.ac.unpas.showroommobile8.networks.PromoApi
 import id.ac.unpas.showroommobile8.networks.SetoranMobilApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -43,5 +44,12 @@ object NetworkModule {
     fun provideSetoramMobilApi(retrofit: Retrofit):
             SetoranMobilApi{
         return retrofit.create(SetoranMobilApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providePromoApi(retrofit: Retrofit):
+            PromoApi{
+        return retrofit.create(PromoApi::class.java)
     }
 }
