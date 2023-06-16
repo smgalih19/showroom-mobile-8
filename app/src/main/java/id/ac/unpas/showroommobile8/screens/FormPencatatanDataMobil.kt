@@ -60,7 +60,6 @@ fun FormPencatatanDataMobil(navController: NavHostController, id: String? = null
 
     val deskripsi = remember { mutableStateOf(TextFieldValue("")) }
 
-
     val icon = if (expandDropdown)
         Icons.Filled.KeyboardArrowUp
     else

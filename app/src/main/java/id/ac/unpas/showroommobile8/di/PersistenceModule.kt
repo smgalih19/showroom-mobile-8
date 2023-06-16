@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import id.ac.unpas.showroommobile8.persistences.AppDatabase
 import id.ac.unpas.showroommobile8.persistences.DataMobilDao
+import id.ac.unpas.showroommobile8.persistences.PromoDao
 import javax.inject.Singleton
 
 @Module
@@ -30,5 +31,11 @@ object PersistenceModule {
     @Singleton
     fun provideDataMobilDao(appDatabase: AppDatabase) : DataMobilDao{
         return appDatabase.dataMobilDao()
+    }
+
+    @Provides
+    @Singleton
+    fun providePromoDao(appDatabase: AppDatabase) : PromoDao{
+        return appDatabase.promoDao()
     }
 }

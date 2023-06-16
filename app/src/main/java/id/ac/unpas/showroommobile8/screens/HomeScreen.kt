@@ -7,6 +7,6 @@ import androidx.compose.runtime.Composable
 @Composable
 fun HomeScreen(){
     Column {
-        Text(text = "Home")
+        Text(text = "Selamat Datang di Aplikasi ShowRoom")
     }
 }

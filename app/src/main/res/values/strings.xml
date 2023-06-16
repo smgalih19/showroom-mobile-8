@@ -2,5 +2,6 @@
     <string name="app_name">Showroom Mobile 8</string>
     <string name="home">Home</string>
     <string name="pengelolaan_mobil">Pengelolaan Data Mobil</string>
+    <string name="pengelolaan_promo">Pengelolaan Data Promo</string>
     <string name="setting">Setting</string>
 </resources>
