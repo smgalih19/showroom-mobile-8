@@ -8,7 +8,7 @@ data class DataMobil(
     @PrimaryKey val id: String,
     val merk: String,
     val model: String,
-    val bahanBakar: String,
+    val bahan_bakar: String,
     val dijual: String,
     val deskripsi: String
 )

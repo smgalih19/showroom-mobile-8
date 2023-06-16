@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import dagger.hilt.android.AndroidEntryPoint
-import id.ac.unpas.showroommobile8.screens.PengelolaanDataMobil
+import id.ac.unpas.showroommobile8.screens.MainScreen
 import id.ac.unpas.showroommobile8.ui.theme.ShowroomMobile8Theme
 
 @AndroidEntryPoint
@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    PengelolaanDataMobil()
+                    MainScreen()
                 }
             }
         }
@@ -35,6 +35,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     ShowroomMobile8Theme {
-        PengelolaanDataMobil()
+        MainScreen()
     }
 }
