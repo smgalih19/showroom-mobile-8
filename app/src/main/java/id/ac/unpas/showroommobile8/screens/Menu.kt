@@ -16,8 +16,9 @@ enum class Menu (
     HOME(R.string.home, Icons.Default.Home, "home"),
     PENGELOLAAN_MOBIL(R.string.pengelolaan_mobil,
     Icons.Default.List, "pengelolaan-mobil"),
-    SETTING(R.string.setting, Icons.Default.Settings, "setting"),
-    PENGELOLAAN_PROMO(R.string.pengelolaan_promo, Icons.Default.List, "pengelolaan-promo");
+    PENGELOLAAN_PROMO(R.string.pengelolaan_promo, Icons.Default.List, "pengelolaan-promo"),
+    PENGELOLAAN_MOTOR(R.string.pengelolaan_motor, Icons.Default.List, "pengelolaan-motor"),
+    SETTING(R.string.setting, Icons.Default.Settings, "setting");
 
     companion object{
         fun getTabFromResource(@StringRes resource: Int) : Menu{

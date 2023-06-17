@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import id.ac.unpas.showroommobile8.model.Promo
-import id.ac.unpas.showroommobile8.repositories.PromoRepository
+import id.ac.unpas.showroommobile8.model.SepedaMotor
+import id.ac.unpas.showroommobile8.repositories.SepedaMotorRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class PengelolaanPromoViewModel @Inject constructor(private val
-                                                    promoRepository: PromoRepository) : ViewModel()
+class PengelolaanMotorViewModel @Inject constructor(private val
+sepedaMotorRepository: SepedaMotorRepository) : ViewModel()
 {
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
@@ -21,13 +21,13 @@ class PengelolaanPromoViewModel @Inject constructor(private val
     private val _toast: MutableLiveData<String> = MutableLiveData()
     val toast: LiveData<String> get() = _toast
 
-    private val _list: MutableLiveData<List<Promo>> = MutableLiveData()
-    val list: LiveData<List<Promo>> get() = _list
+    private val _list: MutableLiveData<List<SepedaMotor>> = MutableLiveData()
+    val list: LiveData<List<SepedaMotor>> get() = _list
 
     suspend fun loadItems()
     {
         _isLoading.postValue(true)
-        promoRepository.loadItems(onSuccess = {
+        sepedaMotorRepository.loadItems(onSuccess = {
             _isLoading.postValue(false)
             _list.postValue(it)
         }, onError = { list, message ->
@@ -37,11 +37,12 @@ class PengelolaanPromoViewModel @Inject constructor(private val
         })
     }
     suspend fun insert(model: String,
-                       tanggal_awal: String,
-                       tanggal_akhir: String,
-                       persentase: Int,){
+                       warna: String,
+                       kapasitas: Int,
+                       tanggal_rilis: String,
+                       harga: Int,){
         _isLoading.postValue(true)
-        promoRepository.insert(model, tanggal_awal, tanggal_akhir, persentase,
+        sepedaMotorRepository.insert(model, warna, kapasitas, tanggal_rilis, harga,
             onError = { item, message ->
                 _toast.postValue(message)
                 _isLoading.postValue(false)
@@ -51,33 +52,30 @@ class PengelolaanPromoViewModel @Inject constructor(private val
             })
     }
 
-    suspend fun loadItem(id: String, onSuccess: (Promo?) ->
-    Unit) {
-        val item = promoRepository.find(id)
+    suspend fun loadItem(id: String, onSuccess: (SepedaMotor?) -> Unit) {
+        val item = sepedaMotorRepository.find(id)
         onSuccess(item)
     }
-    suspend fun update(
-        id: String,
-        model: String,
-        tanggal_awal: String,
-        tanggal_akhir: String,
-        persentase: Int,
-    ){
+    suspend fun update(id: String,
+                       model: String,
+                       warna: String,
+                       kapasitas: Int,
+                       tanggal_rilis: String,
+                       harga: Int,){
         _isLoading.postValue(true)
-        promoRepository.update(id, model, tanggal_awal, tanggal_akhir, persentase,
+        sepedaMotorRepository.update(id, model, warna, kapasitas, tanggal_rilis, harga,
             onError = { item, message ->
                 _toast.postValue(message)
                 _isLoading.postValue(false)
             }, onSuccess = {
-                _success.postValue(true)
                 _isLoading.postValue(false)
-            }
-        )
+                _success.postValue(true)
+            })
     }
 
     suspend fun delete(id: String) {
         _isLoading.postValue(true)
-        promoRepository.delete(id, onError = { message ->
+        sepedaMotorRepository.delete(id, onError = { message ->
             _toast.postValue(message)
             _isLoading.postValue(false)
             _success.postValue(true)

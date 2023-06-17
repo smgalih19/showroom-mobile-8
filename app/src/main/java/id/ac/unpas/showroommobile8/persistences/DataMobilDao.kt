@@ -13,7 +13,7 @@ interface DataMobilDao {
     suspend fun getList(): List<DataMobil>
 
     @Query("SELECT * FROM DataMobil WHERE id = :id")
-    fun find(id: String): DataMobil?
+    suspend fun find(id: String): DataMobil?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(vararg items: DataMobil)

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
@@ -15,12 +16,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import id.ac.unpas.showroommobile8.model.DataMobil
+import id.ac.unpas.showroommobile8.ui.theme.Purple700
 import kotlinx.coroutines.launch
 
 
@@ -32,8 +36,12 @@ Modifier){
     val viewModel = hiltViewModel<PengelolaanDataMobilViewModel>()
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
-
     val items: List<DataMobil> by viewModel.list.observeAsState(initial = listOf())
+
+    val tambahDataButtonColors = ButtonDefaults.buttonColors(
+        backgroundColor = Green,
+        contentColor = Purple700
+    )
 
     Column(modifier = Modifier.fillMaxWidth()) {
         Button(modifier = Modifier
@@ -41,8 +49,8 @@ Modifier){
             .fillMaxWidth(),
             onClick = {
                 navController.navigate("tambah-pengelolaan-mobil")
-            }) {
-            Text(text = "Tambah Data", modifier = Modifier.padding(4.dp))
+            }, colors = tambahDataButtonColors) {
+            Text(text = "Tambah Data Mobil", modifier = Modifier.padding(4.dp))
         }
 
         LazyColumn(modifier = Modifier.fillMaxWidth() ) {

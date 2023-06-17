@@ -34,6 +34,7 @@ fun DrawerContent(onClick: (String) -> Unit)
         Menu.HOME,
         Menu.PENGELOLAAN_MOBIL,
         Menu.PENGELOLAAN_PROMO,
+        Menu.PENGELOLAAN_MOTOR,
         Menu.SETTING)
 
     val listState = rememberLazyListState()

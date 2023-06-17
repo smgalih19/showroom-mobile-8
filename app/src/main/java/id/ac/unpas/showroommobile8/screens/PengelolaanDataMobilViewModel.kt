@@ -16,16 +16,13 @@ setoranMobilRepository: SetoranMobilRepository) : ViewModel()
 MutableLiveData(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    private val _success: MutableLiveData<Boolean> =
-MutableLiveData()
+    private val _success: MutableLiveData<Boolean> = MutableLiveData()
     val success: LiveData<Boolean> get() = _success
 
-    private val _toast: MutableLiveData<String> =
-MutableLiveData()
+    private val _toast: MutableLiveData<String> = MutableLiveData()
     val toast: LiveData<String> get() = _toast
 
-    private val _list: MutableLiveData<List<DataMobil>> =
-MutableLiveData()
+    private val _list: MutableLiveData<List<DataMobil>> = MutableLiveData()
     val list: LiveData<List<DataMobil>> get() = _list
 
     suspend fun loadItems(){

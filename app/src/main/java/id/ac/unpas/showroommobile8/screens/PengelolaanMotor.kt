@@ -22,18 +22,17 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import id.ac.unpas.showroommobile8.model.Promo
+import id.ac.unpas.showroommobile8.model.SepedaMotor
 import id.ac.unpas.showroommobile8.ui.theme.Purple700
 import kotlinx.coroutines.launch
 
 @Composable
-fun PengelolaanPromo(navController : NavHostController,
-snackbarHostState: SnackbarHostState, modifier: Modifier =
-Modifier)
-{
-    val viewModel = hiltViewModel<PengelolaanPromoViewModel>()
+fun PengelolaanMotor(navController : NavHostController,
+snackbarHostState: SnackbarHostState, modifier: Modifier = Modifier,) {
+
+    val viewModel = hiltViewModel<PengelolaanMotorViewModel>()
     val scope = rememberCoroutineScope()
-    val items: List<Promo> by viewModel.list.observeAsState(initial = listOf())
+    val items: List<SepedaMotor> by viewModel.list.observeAsState(initial = listOf())
 
     val tambahDataButtonColors = ButtonDefaults.buttonColors(
         backgroundColor = Green,
@@ -45,13 +44,13 @@ Modifier)
             .padding(15.dp)
             .fillMaxWidth(),
             onClick = {
-                navController.navigate("tambah-pengelolaan-promo")
-            }, colors = tambahDataButtonColors) {
-            Text(text = "Tambah Data Promo", modifier = Modifier.padding(4.dp))
+                navController.navigate("tambah-pengelolaan-motor")
+            }, colors = tambahDataButtonColors){
+            Text(text = "Tambah Data Motor", modifier = Modifier.padding(4.dp))
         }
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             items(items = items, itemContent = { item ->
-                PromoItem(item = item, navController = navController) {
+                SepedaMotorItem(item = item, navController = navController) {
                     scope.launch {
                         viewModel.delete(it)
                     }
@@ -59,17 +58,17 @@ Modifier)
             })
         }
     }
-    LaunchedEffect(scope){
+    LaunchedEffect(scope) {
         viewModel.loadItems()
     }
-    viewModel.success.observe(LocalLifecycleOwner.current){
-        if (it){
+    viewModel.success.observe(LocalLifecycleOwner.current) {
+        if (it) {
             scope.launch {
                 viewModel.loadItems()
             }
         }
     }
-    viewModel.toast.observe(LocalLifecycleOwner.current){
+    viewModel.toast.observe(LocalLifecycleOwner.current) {
         scope.launch {
             snackbarHostState.showSnackbar(it, actionLabel =
             "Tutup", duration = SnackbarDuration.Long)

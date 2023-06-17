@@ -3,5 +3,6 @@
     <string name="home">Home</string>
     <string name="pengelolaan_mobil">Pengelolaan Data Mobil</string>
     <string name="pengelolaan_promo">Pengelolaan Data Promo</string>
+    <string name="pengelolaan_motor">Pengelolaan Sepeda Motor</string>
     <string name="setting">Setting</string>
 </resources>
