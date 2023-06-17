@@ -18,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,6 +26,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -54,9 +56,7 @@ fun FormPencatatanDataMobil(navController: NavHostController, id: String? = null
     val (bahan_bakar, setBahanBakar) = remember { mutableStateOf(bahanBakarOptions[0]) }
 
     val dijualOptions = listOf("--Apakah Dijual--","Ya","Tidak")
-    val (dijual, setDijual) = remember {
-        mutableStateOf(dijualOptions[0])
-    }
+    val (dijual, setDijual) = remember { mutableStateOf(dijualOptions[0]) }
 
     val deskripsi = remember { mutableStateOf(TextFieldValue("")) }
 
@@ -193,14 +193,15 @@ KeyboardCapitalization.Characters, keyboardType = KeyboardType.Text),
         )
 
         val resetButtonColors = ButtonDefaults.buttonColors(
-            backgroundColor = Teal200,
+            backgroundColor = Red,
             contentColor = Purple700
         )
 
         Row(modifier = Modifier
-            .padding(4.dp)
+            .padding(horizontal = 4.dp, vertical = 8.dp)
             .fillMaxWidth()) {
-            Button(modifier = Modifier.weight(5f), onClick = {
+            Button(modifier = Modifier.weight(1f).padding(end = 4.dp),
+                onClick = {
                 if(id == null) {
                     scope.launch {
                         viewModel.insert(
@@ -216,7 +217,6 @@ KeyboardCapitalization.Characters, keyboardType = KeyboardType.Text),
                         )
                     }
                 }
-                navController.navigate("pengelolaan-mobil")
             }, colors = loginButtonColors) {
                 Text(
                     text = buttonLabel,
@@ -227,7 +227,8 @@ KeyboardCapitalization.Characters, keyboardType = KeyboardType.Text),
                 )
             }
 
-            Button(modifier = Modifier.weight(5f), onClick = {
+            Button(modifier = Modifier.weight(1f).padding(start = 4.dp),
+                onClick = {
                 merk.value = TextFieldValue("")
                 model.value = TextFieldValue("")
                 setBahanBakar(bahanBakarOptions[0])
@@ -246,5 +247,19 @@ KeyboardCapitalization.Characters, keyboardType = KeyboardType.Text),
     }
     viewModel.isLoading.observe(LocalLifecycleOwner.current){
         isLoading.value = it
+    }
+
+    if (id != null) {
+        LaunchedEffect(scope) {
+            viewModel.loadItem(id) { DataMobil ->
+                DataMobil?.let {
+                    model.value = TextFieldValue(DataMobil.model)
+                    merk.value = TextFieldValue(DataMobil.merk)
+//                    setBahanBakar(bahanBakarOptions[0])
+//                    setDijual(dijualOptions[0])
+                    deskripsi.value = TextFieldValue(DataMobil.deskripsi)
+                }
+            }
+        }
     }
 }

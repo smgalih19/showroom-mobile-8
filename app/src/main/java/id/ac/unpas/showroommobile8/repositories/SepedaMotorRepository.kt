@@ -6,27 +6,26 @@ import com.skydoves.sandwich.suspendOnError
 import com.skydoves.sandwich.suspendOnException
 import com.skydoves.sandwich.suspendOnSuccess
 import com.skydoves.whatif.whatIfNotNull
-import id.ac.unpas.showroommobile8.model.DataMobil
 import id.ac.unpas.showroommobile8.model.SepedaMotor
-import id.ac.unpas.showroommobile8.networks.SetoranMobilApi
-import id.ac.unpas.showroommobile8.persistences.DataMobilDao
+import id.ac.unpas.showroommobile8.networks.SepedaMotorApi
+import id.ac.unpas.showroommobile8.persistences.SepedaMotorDao
 import javax.inject.Inject
 
-class SetoranMobilRepository @Inject constructor(
-    private val api: SetoranMobilApi,
-    private val dao: DataMobilDao
-    ) : Repository {
+class SepedaMotorRepository @Inject constructor(
+    private val api: SepedaMotorApi,
+    private val dao: SepedaMotorDao
+) : Repository {
     suspend fun loadItems(
-        onSuccess: (List<DataMobil>) -> Unit,
-        onError: (List<DataMobil>, String) -> Unit
+        onSuccess: (List<SepedaMotor>) -> Unit,
+        onError: (List<SepedaMotor>, String) -> Unit
     ) {
-        val list: List<DataMobil> = dao.getList()
+        val list: List<SepedaMotor> = dao.getList()
         api.all()
             .suspendOnSuccess {
                 data.whatIfNotNull {
                     it.data?.let { list ->
                         dao.insertAll(list)
-                        val items: List<DataMobil> = dao.getList()
+                        val items: List<SepedaMotor> = dao.getList()
                         onSuccess(items)
                     }
                 }
@@ -40,19 +39,18 @@ class SetoranMobilRepository @Inject constructor(
     }
 
     suspend fun insert(
-        merk: String,
         model: String,
-        bahan_bakar: String,
-        dijual: String,
-        deskripsi: String,
-        onSuccess: (DataMobil) -> Unit,
-        onError: (DataMobil?, String) -> Unit
+        warna: String,
+        kapasitas: Int,
+        tanggal_rilis: String,
+        harga: Int,
+        onSuccess: (SepedaMotor) -> Unit,
+        onError: (SepedaMotor?, String) -> Unit
     ) {
         val id = uuid4().toString()
-        val item = DataMobil(id, merk, model, bahan_bakar, dijual, deskripsi)
+        val item = SepedaMotor(id, model, warna, kapasitas, tanggal_rilis, harga)
         dao.insertAll(item)
         api.insert(item)
-
             .suspendOnSuccess {
                 onSuccess(item)
             }
@@ -66,15 +64,15 @@ class SetoranMobilRepository @Inject constructor(
 
     suspend fun update(
         id: String,
-        merk: String,
         model: String,
-        bahan_bakar: String,
-        dijual: String,
-        deskripsi: String,
-        onSuccess: (DataMobil) -> Unit,
-        onError: (DataMobil?, String) -> Unit
+        warna: String,
+        kapasitas: Int,
+        tanggal_rilis: String,
+        harga: Int,
+        onSuccess: (SepedaMotor) -> Unit,
+        onError: (SepedaMotor?, String) -> Unit
     ) {
-        val item = DataMobil(id, merk, model, bahan_bakar, dijual, deskripsi)
+        val item = SepedaMotor(id, model, warna, kapasitas, tanggal_rilis, harga)
         dao.insertAll(item)
         api.update(id, item)
             .suspendOnSuccess {
@@ -89,8 +87,7 @@ class SetoranMobilRepository @Inject constructor(
     }
 
     suspend fun delete(
-        id: String, onSuccess: () -> Unit,
-        onError: (String) -> Unit
+        id: String, onSuccess: () -> Unit, onError: (String) -> Unit
     ) {
         dao.delete(id)
         api.delete(id)
@@ -106,7 +103,7 @@ class SetoranMobilRepository @Inject constructor(
                 onError(message())
             }
     }
-    suspend fun find(id: String): DataMobil? {
+    suspend fun find(id: String): SepedaMotor? {
         return dao.find(id)
     }
 }

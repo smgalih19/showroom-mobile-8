@@ -172,6 +172,11 @@ navController, snackbarHostState = scaffoldState.snackbarHostState, modifier = M
                     PengelolaanPromo(navController =
 navController, snackbarHostState = scaffoldState.snackbarHostState, modifier = Modifier.padding(innerPadding))
                 }
+                composable("pengelolaan-motor") {
+                    title.value = "Pengelolaan Motor"
+                    PengelolaanMotor(navController =
+navController, snackbarHostState = scaffoldState.snackbarHostState, modifier = Modifier.padding(innerPadding))
+                }
 
                 composable("tambah-pengelolaan-mobil") {
                     title.value = "Tambah Data Mobil"
@@ -181,6 +186,11 @@ navController, modifier = Modifier.padding(innerPadding))
                 composable("tambah-pengelolaan-promo") {
                     title.value = "Tambah Data Promo"
                     FormPencatatanPromo(navController =
+navController, modifier = Modifier.padding(innerPadding))
+                }
+                composable("tambah-pengelolaan-motor") {
+                    title.value = "Tambah Data Motor"
+                    FormPencatanSepedaMotor(navController =
 navController, modifier = Modifier.padding(innerPadding))
                 }
 
@@ -199,6 +209,7 @@ navController, id = id, modifier =
 Modifier.padding(innerPadding)
                     )
                 }
+
                 composable("edit-pengelolaan-promo/{id}",
                     listOf(
                         navArgument("id") {
@@ -210,8 +221,25 @@ Modifier.padding(innerPadding)
 backStackEntry.arguments?.getString("id")
                             ?: return@composable
                     FormPencatatanPromo(navController =
- navController, id = id, modifier =
-Modifier.padding(innerPadding))
+navController, id = id, modifier =
+Modifier.padding(innerPadding)
+                    )
+                }
+
+                composable("edit-pengelolaan-motor/{id}",
+                    listOf(
+                        navArgument("id") {
+                            type = NavType.StringType
+                        }
+                    )) { backStackEntry ->
+                    title.value = "Edit Pengelolaan Motor"
+                    val id =
+backStackEntry.arguments?.getString("id")
+                            ?: return@composable
+                    FormPencatanSepedaMotor(navController =
+navController, id = id, modifier =
+Modifier.padding(innerPadding)
+                    )
                 }
             }
         }
